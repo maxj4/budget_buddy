@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_fonts: ^6.2.1 # TODO check problems/check for alternatives
 
 dev_dependencies:
   flutter_test:

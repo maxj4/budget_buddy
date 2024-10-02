@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static ThemeData get darkTheme {
@@ -27,56 +26,56 @@ class AppTheme {
         inversePrimary: Color(0xFFFFD54F),
         shadow: Colors.black,
       ),
-      textTheme: TextTheme(
-        displayLarge: GoogleFonts.oswald(
+      textTheme: const TextTheme(
+        displayLarge: TextStyle(
           fontSize: 72,
           fontWeight: FontWeight.bold,
           letterSpacing: -1.5,
           color: Colors.white,
         ),
-        headlineLarge: GoogleFonts.oswald(
+        headlineLarge: TextStyle(
           fontSize: 48,
           fontWeight: FontWeight.bold,
           letterSpacing: -0.5,
           color: Colors.white,
         ),
-        headlineMedium: GoogleFonts.oswald(
+        headlineMedium: TextStyle(
           fontSize: 34,
           fontWeight: FontWeight.bold,
           letterSpacing: 0.25,
           color: Colors.white,
         ),
-        headlineSmall: GoogleFonts.merriweather(
+        headlineSmall: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
           letterSpacing: 0,
           color: Colors.white,
         ),
-        titleLarge: GoogleFonts.merriweather(
+        titleLarge: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
           letterSpacing: 0.15,
           color: Colors.white,
         ),
-        titleMedium: GoogleFonts.merriweather(
+        titleMedium: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
           letterSpacing: 0.15,
           color: Colors.white,
         ),
-        bodyLarge: GoogleFonts.merriweather(
+        bodyLarge: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.normal,
           letterSpacing: 0.5,
           color: Colors.white,
         ),
-        bodyMedium: GoogleFonts.merriweather(
+        bodyMedium: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.normal,
           letterSpacing: 0.25,
           color: Colors.white,
         ),
-        labelLarge: GoogleFonts.merriweather(
+        labelLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
           letterSpacing: 1.25,

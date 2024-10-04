@@ -27,4 +27,28 @@ class Expense {
     this.category,
     this.description,
   });
+
+  @override
+  String toString() {
+    return 'Expense{title: $title, amount: $amount, date: $date, category: $category, description: $description}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Expense &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          amount == other.amount &&
+          date == other.date &&
+          category == other.category &&
+          description == other.description;
+
+  @override
+  int get hashCode =>
+      title.hashCode ^
+      amount.hashCode ^
+      date.hashCode ^
+      category.hashCode ^
+      description.hashCode;
 }

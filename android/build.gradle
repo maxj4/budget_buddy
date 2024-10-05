@@ -9,6 +9,18 @@ rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+// Workaround when there are outdated subprojects that dont use namespaces, see also https://stackoverflow.com/a/78744535
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                if (namespace == null) {
+                    namespace project.group
+                }
+            }
+        }
+    }
+}
 subprojects {
     project.evaluationDependsOn(":app")
 }

@@ -37,7 +37,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
   Future<void> _onAddExpense(
       AddExpenseEvent event, Emitter<ExpenseState> emit) async {
-    emit(ExpenseLoading());
+    // emit(ExpenseLoading());
     final result = await addExpense(event.expense);
     result.fold(
       (error) => emit(ExpenseError(error.message)),
@@ -47,7 +47,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
   Future<void> _onUpdateExpense(
       UpdateExpenseEvent event, Emitter<ExpenseState> emit) async {
-    emit(ExpenseLoading());
+    // emit(ExpenseLoading());
     final result = await updateExpense(event.expense);
     result.fold(
       (error) => emit(ExpenseError(error.message)),
@@ -57,7 +57,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
   Future<void> _onDeleteExpense(
       DeleteExpenseEvent event, Emitter<ExpenseState> emit) async {
-    emit(ExpenseLoading());
+    // emit(ExpenseLoading());
     final result = await deleteExpense(event.id);
     result.fold(
       (error) => emit(ExpenseError(error.message)),

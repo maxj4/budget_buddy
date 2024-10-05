@@ -30,7 +30,7 @@ class Expense {
 
   @override
   String toString() {
-    return 'Expense{title: $title, amount: $amount, date: $date, category: $category, description: $description}';
+    return 'Expense{id: $id, title: $title, amount: $amount, date: $date, category: $category, description: $description}';
   }
 
   @override

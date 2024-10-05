@@ -6,6 +6,7 @@ import 'package:budget_buddy/domain/usecases/get_expenses.dart';
 import 'package:budget_buddy/domain/usecases/update_expense.dart';
 import 'package:budget_buddy/presentation/bloc/expense_bloc.dart';
 import 'package:budget_buddy/presentation/bloc/expense_event.dart';
+import 'package:budget_buddy/presentation/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,11 +44,7 @@ class MainApp extends StatelessWidget {
       create: (_) => expenseBloc..add(LoadExpenseEvent()),
       child: MaterialApp(
         theme: AppTheme.darkTheme,
-        home: const Scaffold(
-          body: Center(
-            child: Text('Hello World!'),
-          ),
-        ),
+        home: const MainPage(),
       ),
     );
   }

@@ -28,7 +28,7 @@ class ExpenseLocalDatasource {
 
   Future<void> _putExpense(Expense expense) async {
     final isar = await _db;
-    isar.writeTxn(() async {
+    await isar.writeTxn(() async {
       await isar.expenses.put(expense);
     });
   }
@@ -43,7 +43,7 @@ class ExpenseLocalDatasource {
 
   Future<void> deleteExpense(int id) async {
     final isar = await _db;
-    isar.writeTxn(() async {
+    await isar.writeTxn(() async {
       await isar.expenses.delete(id);
     });
   }

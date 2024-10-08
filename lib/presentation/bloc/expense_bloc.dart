@@ -7,7 +7,7 @@ import 'package:budget_buddy/presentation/bloc/expense_event.dart';
 import 'package:budget_buddy/presentation/bloc/expense_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
+class ExpenseBloc extends Bloc<TransactionEvent, ExpenseState> {
   final GetExpenses getExpenses;
   final AddExpense addExpense;
   final UpdateExpense updateExpense;
@@ -19,14 +19,14 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     required this.updateExpense,
     required this.deleteExpense,
   }) : super(ExpenseInitial()) {
-    on<LoadExpenseEvent>(_onLoadExpense);
-    on<AddExpenseEvent>(_onAddExpense);
-    on<UpdateExpenseEvent>(_onUpdateExpense);
-    on<DeleteExpenseEvent>(_onDeleteExpense);
+    on<LoadTransactionEvent>(_onLoadExpense);
+    on<AddTransactionEvent>(_onAddExpense);
+    on<UpdateTransactionEvent>(_onUpdateExpense);
+    on<DeleteTransactionEvent>(_onDeleteExpense);
   }
 
   Future<void> _onLoadExpense(
-      LoadExpenseEvent event, Emitter<ExpenseState> emit) async {
+      LoadTransactionEvent event, Emitter<ExpenseState> emit) async {
     emit(ExpenseLoading());
     final result = await getExpenses(NoParams());
     result.fold(
@@ -36,32 +36,32 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   }
 
   Future<void> _onAddExpense(
-      AddExpenseEvent event, Emitter<ExpenseState> emit) async {
+      AddTransactionEvent event, Emitter<ExpenseState> emit) async {
     // emit(ExpenseLoading());
-    final result = await addExpense(event.expense);
+    final result = await addExpense(event.transaction);
     result.fold(
       (error) => emit(ExpenseError(error.message)),
-      (_) => add(LoadExpenseEvent()),
+      (_) => add(LoadTransactionEvent()),
     );
   }
 
   Future<void> _onUpdateExpense(
-      UpdateExpenseEvent event, Emitter<ExpenseState> emit) async {
+      UpdateTransactionEvent event, Emitter<ExpenseState> emit) async {
     // emit(ExpenseLoading());
-    final result = await updateExpense(event.expense);
+    final result = await updateExpense(event.transaction);
     result.fold(
       (error) => emit(ExpenseError(error.message)),
-      (_) => add(LoadExpenseEvent()),
+      (_) => add(LoadTransactionEvent()),
     );
   }
 
   Future<void> _onDeleteExpense(
-      DeleteExpenseEvent event, Emitter<ExpenseState> emit) async {
+      DeleteTransactionEvent event, Emitter<ExpenseState> emit) async {
     // emit(ExpenseLoading());
     final result = await deleteExpense(event.id);
     result.fold(
       (error) => emit(ExpenseError(error.message)),
-      (_) => add(LoadExpenseEvent()),
+      (_) => add(LoadTransactionEvent()),
     );
   }
 }

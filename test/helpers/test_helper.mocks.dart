@@ -44,25 +44,26 @@ class MockExpenseRepository extends _i1.Mock implements _i3.ExpenseRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Expense>>> getExpenses() =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Transaction>>> getExpenses() =>
       (super.noSuchMethod(
         Invocation.method(
           #getExpenses,
           [],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Expense>>>.value(
-                _FakeEither_0<_i5.Failure, List<_i6.Expense>>(
+            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Transaction>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i6.Transaction>>(
           this,
           Invocation.method(
             #getExpenses,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Expense>>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Transaction>>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> addExpense(_i6.Expense? expense) =>
+  _i4.Future<_i2.Either<_i5.Failure, void>> addExpense(
+          _i6.Transaction? expense) =>
       (super.noSuchMethod(
         Invocation.method(
           #addExpense,
@@ -80,7 +81,7 @@ class MockExpenseRepository extends _i1.Mock implements _i3.ExpenseRepository {
 
   @override
   _i4.Future<_i2.Either<_i5.Failure, void>> updateExpense(
-          _i6.Expense? expense) =>
+          _i6.Transaction? expense) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateExpense,

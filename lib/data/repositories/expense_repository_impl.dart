@@ -10,7 +10,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   ExpenseRepositoryImpl(this.localDatasource);
 
   @override
-  Future<Either<Failure, List<Expense>>> getExpenses() async {
+  Future<Either<Failure, List<Transaction>>> getExpenses() async {
     try {
       final expenses = await localDatasource.getExpenses();
       return Right(expenses);
@@ -20,7 +20,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> addExpense(Expense expense) async {
+  Future<Either<Failure, void>> addExpense(Transaction expense) async {
     try {
       await localDatasource.addExpense(expense);
       return const Right(null);
@@ -30,7 +30,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateExpense(Expense expense) async {
+  Future<Either<Failure, void>> updateExpense(Transaction expense) async {
     try {
       await localDatasource.updateExpense(expense);
       return const Right(null);

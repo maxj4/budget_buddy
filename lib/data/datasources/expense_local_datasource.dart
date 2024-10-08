@@ -21,23 +21,23 @@ class ExpenseLocalDatasource {
     return Future.value(Isar.getInstance());
   }
 
-  Future<List<Expense>> getExpenses() async {
+  Future<List<Transaction>> getExpenses() async {
     final isar = await _db;
     return await isar.expenses.where().findAll();
   }
 
-  Future<void> _putExpense(Expense expense) async {
+  Future<void> _putExpense(Transaction expense) async {
     final isar = await _db;
     await isar.writeTxn(() async {
       await isar.expenses.put(expense);
     });
   }
 
-  Future<void> addExpense(Expense expense) async {
+  Future<void> addExpense(Transaction expense) async {
     await _putExpense(expense);
   }
 
-  Future<void> updateExpense(Expense expense) async {
+  Future<void> updateExpense(Transaction expense) async {
     await _putExpense(expense);
   }
 

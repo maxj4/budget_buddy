@@ -5,13 +5,13 @@ import 'package:budget_buddy/domain/entities/expense.dart';
 import 'package:budget_buddy/domain/repositories/expense_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetExpenses implements UseCase<List<Expense>, NoParams> {
+class GetExpenses implements UseCase<List<Transaction>, NoParams> {
   final ExpenseRepository repository;
 
   GetExpenses(this.repository);
 
   @override
-  Future<Either<Failure, List<Expense>>> call(NoParams params) async {
+  Future<Either<Failure, List<Transaction>>> call(NoParams params) async {
     return await repository.getExpenses();
   }
 }

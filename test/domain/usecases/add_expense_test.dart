@@ -17,12 +17,12 @@ void main() {
     });
 
     test('calls repository', () async {
-      final Expense expense = Expense(
+      final Transaction expense = Transaction(
         date: DateTime(2024, 10, 3),
         title: 'Test',
         category: 'Test',
         description: 'Test description',
-        amount: 100.0,
+        value: 100.0,
       );
 
       when(mockRepository.addExpense(expense))

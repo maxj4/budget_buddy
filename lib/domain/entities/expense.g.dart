@@ -10,7 +10,7 @@ part of 'expense.dart';
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetExpenseCollection on Isar {
-  IsarCollection<Expense> get expenses => this.collection();
+  IsarCollection<Transaction> get expenses => this.collection();
 }
 
 const ExpenseSchema = CollectionSchema(
@@ -111,7 +111,7 @@ const ExpenseSchema = CollectionSchema(
 );
 
 int _expenseEstimateSize(
-  Expense object,
+  Transaction object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -133,26 +133,26 @@ int _expenseEstimateSize(
 }
 
 void _expenseSerialize(
-  Expense object,
+  Transaction object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.amount);
+  writer.writeDouble(offsets[0], object.value);
   writer.writeString(offsets[1], object.category);
   writer.writeDateTime(offsets[2], object.date);
   writer.writeString(offsets[3], object.description);
   writer.writeString(offsets[4], object.title);
 }
 
-Expense _expenseDeserialize(
+Transaction _expenseDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Expense(
-    amount: reader.readDouble(offsets[0]),
+  final object = Transaction(
+    value: reader.readDouble(offsets[0]),
     category: reader.readStringOrNull(offsets[1]),
     date: reader.readDateTime(offsets[2]),
     description: reader.readStringOrNull(offsets[3]),
@@ -184,26 +184,27 @@ P _expenseDeserializeProp<P>(
   }
 }
 
-Id _expenseGetId(Expense object) {
+Id _expenseGetId(Transaction object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _expenseGetLinks(Expense object) {
+List<IsarLinkBase<dynamic>> _expenseGetLinks(Transaction object) {
   return [];
 }
 
-void _expenseAttach(IsarCollection<dynamic> col, Id id, Expense object) {
+void _expenseAttach(IsarCollection<dynamic> col, Id id, Transaction object) {
   object.id = id;
 }
 
-extension ExpenseQueryWhereSort on QueryBuilder<Expense, Expense, QWhere> {
-  QueryBuilder<Expense, Expense, QAfterWhere> anyId() {
+extension ExpenseQueryWhereSort
+    on QueryBuilder<Transaction, Transaction, QWhere> {
+  QueryBuilder<Transaction, Transaction, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhere> anyTitle() {
+  QueryBuilder<Transaction, Transaction, QAfterWhere> anyTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'title'),
@@ -211,7 +212,7 @@ extension ExpenseQueryWhereSort on QueryBuilder<Expense, Expense, QWhere> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhere> anyAmount() {
+  QueryBuilder<Transaction, Transaction, QAfterWhere> anyAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'amount'),
@@ -219,7 +220,7 @@ extension ExpenseQueryWhereSort on QueryBuilder<Expense, Expense, QWhere> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhere> anyDate() {
+  QueryBuilder<Transaction, Transaction, QAfterWhere> anyDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'date'),
@@ -227,7 +228,7 @@ extension ExpenseQueryWhereSort on QueryBuilder<Expense, Expense, QWhere> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhere> anyCategory() {
+  QueryBuilder<Transaction, Transaction, QAfterWhere> anyCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'category'),
@@ -236,8 +237,9 @@ extension ExpenseQueryWhereSort on QueryBuilder<Expense, Expense, QWhere> {
   }
 }
 
-extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
-  QueryBuilder<Expense, Expense, QAfterWhereClause> idEqualTo(Id id) {
+extension ExpenseQueryWhere
+    on QueryBuilder<Transaction, Transaction, QWhereClause> {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -246,7 +248,8 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> idNotEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -268,7 +271,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -277,7 +280,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -286,7 +289,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> idBetween(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -302,7 +305,8 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> titleEqualTo(String title) {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> titleEqualTo(
+      String title) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'title',
@@ -311,7 +315,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> titleNotEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> titleNotEqualTo(
       String title) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -346,7 +350,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> titleGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> titleGreaterThan(
     String title, {
     bool include = false,
   }) {
@@ -360,7 +364,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> titleLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> titleLessThan(
     String title, {
     bool include = false,
   }) {
@@ -374,7 +378,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> titleBetween(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> titleBetween(
     String lowerTitle,
     String upperTitle, {
     bool includeLower = true,
@@ -391,7 +395,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> titleStartsWith(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> titleStartsWith(
       String TitlePrefix) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
@@ -402,7 +406,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> titleIsEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'title',
@@ -411,7 +415,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> titleIsNotEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -437,7 +441,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> amountEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> amountEqualTo(
       double amount) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -447,7 +451,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> amountNotEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> amountNotEqualTo(
       double amount) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -482,7 +486,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> amountGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> amountGreaterThan(
     double amount, {
     bool include = false,
   }) {
@@ -496,7 +500,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> amountLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> amountLessThan(
     double amount, {
     bool include = false,
   }) {
@@ -510,7 +514,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> amountBetween(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> amountBetween(
     double lowerAmount,
     double upperAmount, {
     bool includeLower = true,
@@ -527,7 +531,8 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> dateEqualTo(DateTime date) {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> dateEqualTo(
+      DateTime date) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'date',
@@ -536,7 +541,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> dateNotEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> dateNotEqualTo(
       DateTime date) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -571,7 +576,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> dateGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> dateGreaterThan(
     DateTime date, {
     bool include = false,
   }) {
@@ -585,7 +590,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> dateLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> dateLessThan(
     DateTime date, {
     bool include = false,
   }) {
@@ -599,7 +604,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> dateBetween(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> dateBetween(
     DateTime lowerDate,
     DateTime upperDate, {
     bool includeLower = true,
@@ -616,7 +621,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryIsNull() {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> categoryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'category',
@@ -625,7 +630,8 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryIsNotNull() {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause>
+      categoryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
         indexName: r'category',
@@ -636,7 +642,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> categoryEqualTo(
       String? category) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -646,7 +652,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryNotEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> categoryNotEqualTo(
       String? category) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -681,7 +687,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> categoryGreaterThan(
     String? category, {
     bool include = false,
   }) {
@@ -695,7 +701,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> categoryLessThan(
     String? category, {
     bool include = false,
   }) {
@@ -709,7 +715,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryBetween(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> categoryBetween(
     String? lowerCategory,
     String? upperCategory, {
     bool includeLower = true,
@@ -726,7 +732,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryStartsWith(
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> categoryStartsWith(
       String CategoryPrefix) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
@@ -737,7 +743,7 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryIsEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause> categoryIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'category',
@@ -746,7 +752,8 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterWhereClause> categoryIsNotEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterWhereClause>
+      categoryIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -774,8 +781,8 @@ extension ExpenseQueryWhere on QueryBuilder<Expense, Expense, QWhereClause> {
 }
 
 extension ExpenseQueryFilter
-    on QueryBuilder<Expense, Expense, QFilterCondition> {
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> amountEqualTo(
+    on QueryBuilder<Transaction, Transaction, QFilterCondition> {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> amountEqualTo(
     double value, {
     double epsilon = Query.epsilon,
   }) {
@@ -788,7 +795,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> amountGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      amountGreaterThan(
     double value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -803,7 +811,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> amountLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> amountLessThan(
     double value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -818,7 +826,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> amountBetween(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> amountBetween(
     double lower,
     double upper, {
     bool includeLower = true,
@@ -837,7 +845,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryIsNull() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'category',
@@ -845,7 +854,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryIsNotNull() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'category',
@@ -853,7 +863,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> categoryEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -866,7 +876,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -881,7 +892,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -896,7 +908,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryBetween(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> categoryBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -915,7 +927,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryStartsWith(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -928,7 +941,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryEndsWith(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -941,9 +955,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'category',
@@ -953,7 +966,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryMatches(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> categoryMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -965,7 +978,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryIsEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'category',
@@ -974,7 +988,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> categoryIsNotEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      categoryIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'category',
@@ -983,7 +998,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> dateEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> dateEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -993,7 +1008,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> dateGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> dateGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -1006,7 +1021,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> dateLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> dateLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -1019,7 +1034,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> dateBetween(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> dateBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -1036,7 +1051,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionIsNull() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'description',
@@ -1044,7 +1060,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionIsNotNull() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'description',
@@ -1052,7 +1069,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -1065,7 +1083,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1080,7 +1099,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1095,7 +1115,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionBetween(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1114,7 +1135,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionStartsWith(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1127,7 +1149,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionEndsWith(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1140,9 +1163,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'description',
@@ -1152,9 +1174,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'description',
@@ -1164,7 +1185,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> descriptionIsEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      descriptionIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'description',
@@ -1173,7 +1195,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition>
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
       descriptionIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1183,7 +1205,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> idEqualTo(Id value) {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> idEqualTo(
+      Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -1192,7 +1215,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -1205,7 +1228,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> idLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -1218,7 +1241,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> idBetween(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -1235,7 +1258,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleEqualTo(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> titleEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1248,7 +1271,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleGreaterThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      titleGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1263,7 +1287,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> titleLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1278,7 +1302,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleBetween(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> titleBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1297,7 +1321,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleStartsWith(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> titleStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1310,7 +1334,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleEndsWith(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> titleEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1323,7 +1347,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleContains(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> titleContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1335,7 +1359,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleMatches(
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> titleMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1347,7 +1371,7 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'title',
@@ -1356,7 +1380,8 @@ extension ExpenseQueryFilter
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterFilterCondition> titleIsNotEmpty() {
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition>
+      titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'title',
@@ -1367,67 +1392,68 @@ extension ExpenseQueryFilter
 }
 
 extension ExpenseQueryObject
-    on QueryBuilder<Expense, Expense, QFilterCondition> {}
+    on QueryBuilder<Transaction, Transaction, QFilterCondition> {}
 
 extension ExpenseQueryLinks
-    on QueryBuilder<Expense, Expense, QFilterCondition> {}
+    on QueryBuilder<Transaction, Transaction, QFilterCondition> {}
 
-extension ExpenseQuerySortBy on QueryBuilder<Expense, Expense, QSortBy> {
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByAmount() {
+extension ExpenseQuerySortBy
+    on QueryBuilder<Transaction, Transaction, QSortBy> {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'amount', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByAmountDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByAmountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'amount', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByCategory() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByCategoryDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByCategoryDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByDate() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByDateDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByDescription() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByDescriptionDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByTitle() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> sortByTitleDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
     });
@@ -1435,74 +1461,74 @@ extension ExpenseQuerySortBy on QueryBuilder<Expense, Expense, QSortBy> {
 }
 
 extension ExpenseQuerySortThenBy
-    on QueryBuilder<Expense, Expense, QSortThenBy> {
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByAmount() {
+    on QueryBuilder<Transaction, Transaction, QSortThenBy> {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'amount', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByAmountDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByAmountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'amount', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByCategory() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByCategoryDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByCategoryDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByDate() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByDateDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByDescription() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByDescriptionDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenById() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByTitle() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
     });
   }
 
-  QueryBuilder<Expense, Expense, QAfterSortBy> thenByTitleDesc() {
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
     });
@@ -1510,34 +1536,34 @@ extension ExpenseQuerySortThenBy
 }
 
 extension ExpenseQueryWhereDistinct
-    on QueryBuilder<Expense, Expense, QDistinct> {
-  QueryBuilder<Expense, Expense, QDistinct> distinctByAmount() {
+    on QueryBuilder<Transaction, Transaction, QDistinct> {
+  QueryBuilder<Transaction, Transaction, QDistinct> distinctByAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'amount');
     });
   }
 
-  QueryBuilder<Expense, Expense, QDistinct> distinctByCategory(
+  QueryBuilder<Transaction, Transaction, QDistinct> distinctByCategory(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'category', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Expense, Expense, QDistinct> distinctByDate() {
+  QueryBuilder<Transaction, Transaction, QDistinct> distinctByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'date');
     });
   }
 
-  QueryBuilder<Expense, Expense, QDistinct> distinctByDescription(
+  QueryBuilder<Transaction, Transaction, QDistinct> distinctByDescription(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Expense, Expense, QDistinct> distinctByTitle(
+  QueryBuilder<Transaction, Transaction, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
@@ -1546,38 +1572,38 @@ extension ExpenseQueryWhereDistinct
 }
 
 extension ExpenseQueryProperty
-    on QueryBuilder<Expense, Expense, QQueryProperty> {
-  QueryBuilder<Expense, int, QQueryOperations> idProperty() {
+    on QueryBuilder<Transaction, Transaction, QQueryProperty> {
+  QueryBuilder<Transaction, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Expense, double, QQueryOperations> amountProperty() {
+  QueryBuilder<Transaction, double, QQueryOperations> amountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'amount');
     });
   }
 
-  QueryBuilder<Expense, String?, QQueryOperations> categoryProperty() {
+  QueryBuilder<Transaction, String?, QQueryOperations> categoryProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'category');
     });
   }
 
-  QueryBuilder<Expense, DateTime, QQueryOperations> dateProperty() {
+  QueryBuilder<Transaction, DateTime, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
     });
   }
 
-  QueryBuilder<Expense, String?, QQueryOperations> descriptionProperty() {
+  QueryBuilder<Transaction, String?, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
     });
   }
 
-  QueryBuilder<Expense, String, QQueryOperations> titleProperty() {
+  QueryBuilder<Transaction, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });

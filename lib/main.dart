@@ -43,6 +43,7 @@ class MainApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => expenseBloc..add(LoadExpenseEvent()),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: AppTheme.darkTheme,
         home: const MainPage(),
       ),

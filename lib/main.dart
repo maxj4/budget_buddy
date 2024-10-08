@@ -41,7 +41,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => expenseBloc..add(LoadExpenseEvent()),
+      create: (_) => expenseBloc..add(LoadTransactionEvent()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.darkTheme,

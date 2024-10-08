@@ -1,37 +1,37 @@
 import 'package:budget_buddy/domain/entities/expense.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class ExpenseEvent extends Equatable {
-  const ExpenseEvent();
+abstract class TransactionEvent extends Equatable {
+  const TransactionEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class LoadExpenseEvent extends ExpenseEvent {}
+class LoadTransactionEvent extends TransactionEvent {}
 
-class AddExpenseEvent extends ExpenseEvent {
-  final Expense expense;
+class AddTransactionEvent extends TransactionEvent {
+  final Transaction transaction;
 
-  const AddExpenseEvent(this.expense);
-
-  @override
-  List<Object> get props => [expense];
-}
-
-class UpdateExpenseEvent extends ExpenseEvent {
-  final Expense expense;
-
-  const UpdateExpenseEvent(this.expense);
+  const AddTransactionEvent(this.transaction);
 
   @override
-  List<Object> get props => [expense];
+  List<Object> get props => [transaction];
 }
 
-class DeleteExpenseEvent extends ExpenseEvent {
+class UpdateTransactionEvent extends TransactionEvent {
+  final Transaction transaction;
+
+  const UpdateTransactionEvent(this.transaction);
+
+  @override
+  List<Object> get props => [transaction];
+}
+
+class DeleteTransactionEvent extends TransactionEvent {
   final int id;
 
-  const DeleteExpenseEvent(this.id);
+  const DeleteTransactionEvent(this.id);
 
   @override
   List<Object> get props => [id];

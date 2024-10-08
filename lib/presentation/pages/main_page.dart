@@ -28,7 +28,7 @@ class MainPage extends StatelessWidget {
           );
         } else if (state is ExpenseLoaded) {
           final double totalAmount =
-              state.expenses.fold(0, (sum, expense) => sum + expense.amount);
+              state.expenses.fold(0, (sum, expense) => sum + expense.value);
           return Column(
             children: [
               Expanded(
@@ -36,7 +36,7 @@ class MainPage extends StatelessWidget {
                   itemCount: state.expenses.length,
                   itemBuilder: (context, index) {
                     final expense = state.expenses[index];
-                    return ExpenseWidget(expense: expense);
+                    return TransactionWidget(transaction: expense);
                   },
                 ),
               ),

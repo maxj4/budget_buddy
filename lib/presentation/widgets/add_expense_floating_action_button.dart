@@ -16,9 +16,9 @@ class AddExpenseFloatingActionButton extends StatelessWidget {
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: () {
-        final expense = Expense(
+        final expense = Transaction(
           title: 'New Expense',
-          amount: 0,
+          value: 0,
           date: DateTime.now(),
         );
 
@@ -66,7 +66,7 @@ class AddExpenseFloatingActionButton extends StatelessWidget {
                             return null;
                           },
                           onSaved: (value) {
-                            expense.amount = double.parse(value!);
+                            expense.value = double.parse(value!);
                           },
                         ),
                       ),
@@ -107,7 +107,9 @@ class AddExpenseFloatingActionButton extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      context.read<ExpenseBloc>().add(AddExpenseEvent(expense));
+                      context
+                          .read<ExpenseBloc>()
+                          .add(AddTransactionEvent(expense));
                       Navigator.of(context).pop();
                     }
                   },

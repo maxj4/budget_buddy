@@ -4,13 +4,13 @@ import 'package:budget_buddy/domain/entities/expense.dart';
 import 'package:budget_buddy/domain/repositories/expense_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class AddExpense implements UseCase<void, Expense> {
+class AddExpense implements UseCase<void, Transaction> {
   final ExpenseRepository repository;
 
   AddExpense(this.repository);
 
   @override
-  Future<Either<Failure, void>> call(Expense expense) async {
+  Future<Either<Failure, void>> call(Transaction expense) async {
     return await repository.addExpense(expense);
   }
 }

@@ -14,7 +14,7 @@ class ExpenseInitial extends ExpenseState {}
 class ExpenseLoading extends ExpenseState {}
 
 class ExpenseLoaded extends ExpenseState {
-  final List<Expense> expenses;
+  final List<Transaction> expenses;
 
   const ExpenseLoaded(this.expenses);
 

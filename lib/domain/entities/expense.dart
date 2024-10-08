@@ -3,14 +3,14 @@ import 'package:isar/isar.dart';
 part 'expense.g.dart';
 
 @collection
-class Expense {
+class Transaction {
   Id id = Isar.autoIncrement;
 
   @Index(type: IndexType.value)
   String title;
 
   @Index(type: IndexType.value)
-  double amount;
+  double value;
 
   @Index(type: IndexType.value)
   DateTime date;
@@ -20,9 +20,9 @@ class Expense {
 
   String? description;
 
-  Expense({
+  Transaction({
     required this.title,
-    required this.amount,
+    required this.value,
     required this.date,
     this.category,
     this.description,
@@ -30,16 +30,16 @@ class Expense {
 
   @override
   String toString() {
-    return 'Expense{id: $id, title: $title, amount: $amount, date: $date, category: $category, description: $description}';
+    return 'Transaction{id: $id, title: $title, amount: $value, date: $date, category: $category, description: $description}';
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Expense &&
+      other is Transaction &&
           runtimeType == other.runtimeType &&
           title == other.title &&
-          amount == other.amount &&
+          value == other.value &&
           date == other.date &&
           category == other.category &&
           description == other.description;
@@ -47,7 +47,7 @@ class Expense {
   @override
   int get hashCode =>
       title.hashCode ^
-      amount.hashCode ^
+      value.hashCode ^
       date.hashCode ^
       category.hashCode ^
       description.hashCode;

@@ -4,14 +4,14 @@ import 'package:budget_buddy/presentation/bloc/expense_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ExpenseWidget extends StatelessWidget {
-  final Expense expense;
+class TransactionWidget extends StatelessWidget {
+  final Transaction transaction;
 
-  const ExpenseWidget({super.key, required this.expense});
+  const TransactionWidget({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
-    bool isIncome = expense.amount < 0;
+    bool isIncome = transaction.value < 0;
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -29,26 +29,26 @@ class ExpenseWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        title: Text(expense.title,
+        title: Text(transaction.title,
             style: Theme.of(context).textTheme.headlineSmall),
         subtitle: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             !isIncome
                 ? Text(
-                    '-${expense.amount.toStringAsFixed(2)} €',
+                    '-${transaction.value.toStringAsFixed(2)} €',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
                     ),
                   )
                 : Text(
                     // Remove the leading - and add a + in front of the amount
-                    '+${expense.amount.toStringAsFixed(2).substring(1)} €',
+                    '+${transaction.value.toStringAsFixed(2).substring(1)} €',
                     style: const TextStyle(
                       color: Colors.green,
                     ),
                   ),
-            Text(_formatDate(expense.date)),
+            Text(_formatDate(transaction.date)),
           ],
         ),
         trailing: IconButton(
@@ -58,9 +58,9 @@ class ExpenseWidget extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Delete Expense'),
+                    title: const Text('Delete Transaction'),
                     content: const Text(
-                        'Are you sure you want to delete this expense?'),
+                        'Are you sure you want to delete this transaction?'),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -71,7 +71,7 @@ class ExpenseWidget extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           BlocProvider.of<ExpenseBloc>(context)
-                              .add(DeleteExpenseEvent(expense.id));
+                              .add(DeleteTransactionEvent(transaction.id));
                           Navigator.of(context).pop();
                         },
                         child: const Text('Delete'),

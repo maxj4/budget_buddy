@@ -31,24 +31,39 @@ class ExpenseWidget extends StatelessWidget {
         ),
         title: Text(expense.title,
             style: Theme.of(context).textTheme.headlineSmall),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        subtitle: Column(
           children: [
-            !isIncome
-                ? Text(
-                    '-${expense.amount.toStringAsFixed(2)} €',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  )
-                : Text(
-                    // Remove the leading - and add a + in front of the amount
-                    '+${expense.amount.toStringAsFixed(2).substring(1)} €',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                !isIncome
+                    ? Text(
+                        '-${expense.amount.toStringAsFixed(2)} €',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      )
+                    : Text(
+                        // Remove the leading - and add a + in front of the amount
+                        '+${expense.amount.toStringAsFixed(2).substring(1)} €',
+                        style: const TextStyle(
+                          color: Colors.green,
+                        ),
+                      ),
+                Text(_formatDate(expense.date)),
+              ],
+            ),
+            if (expense.category != null && expense.category!.isNotEmpty)
+              Row(
+                children: [
+                  Text(
+                    expense.category!,
                     style: const TextStyle(
-                      color: Colors.green,
+                      fontStyle: FontStyle.italic,
                     ),
                   ),
-            Text(_formatDate(expense.date)),
+                ],
+              ),
           ],
         ),
         trailing: IconButton(

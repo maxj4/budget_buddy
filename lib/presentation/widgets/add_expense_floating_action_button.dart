@@ -1,3 +1,4 @@
+import 'package:budget_buddy/data/models/categories.dart';
 import 'package:budget_buddy/domain/entities/expense.dart';
 import 'package:budget_buddy/presentation/bloc/expense_bloc.dart';
 import 'package:budget_buddy/presentation/bloc/expense_event.dart';
@@ -72,12 +73,22 @@ class AddExpenseFloatingActionButton extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
+                        child: DropdownButtonFormField<String>(
                           decoration: const InputDecoration(
                             labelText: 'Category',
                           ),
+                          items: categories.map((category) {
+                            return DropdownMenuItem<String>(
+                              value: category,
+                              child: Text(category),
+                            );
+                          }).toList(),
+                          onChanged: (value) {},
                           onSaved: (value) {
-                            expense.category = value;
+                            if (value != null) {
+                              expense.category =
+                                  value.isNotEmpty ? value : null;
+                            }
                           },
                         ),
                       ),

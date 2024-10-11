@@ -12,6 +12,14 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info),
+            onPressed: () {
+              _showAboutDialog(context);
+            },
+          ),
+        ],
         title: Text(
           'Budget Buddy',
           style: Theme.of(context).textTheme.headlineMedium,
@@ -71,5 +79,27 @@ class MainPage extends StatelessWidget {
       }),
       floatingActionButton: AddExpenseFloatingActionButton(),
     );
+  }
+
+  Future<dynamic> _showAboutDialog(BuildContext context) {
+    return showAdaptiveDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('About'),
+            content: const Text("""
+Budget Buddy is a simple expense tracker app. This is a hobby project created by a Flutter enthusiast.
+The app is open-source and can be found on GitHub: https://github.com/maxj4/budget_buddy\n
+The app icon is provided by Flaticon.com: https://www.flaticon.com/free-icon/circle-b_11183363"""),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        });
   }
 }

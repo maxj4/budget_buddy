@@ -11,7 +11,7 @@ class ExpenseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isIncome = expense.amount < 0;
+    bool isExpense = expense.amount > 0;
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -36,7 +36,7 @@ class ExpenseWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                !isIncome
+                isExpense
                     ? Text(
                         '-${expense.amount.toStringAsFixed(2)} €',
                         style: TextStyle(

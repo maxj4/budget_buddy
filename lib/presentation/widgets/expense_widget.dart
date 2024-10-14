@@ -25,76 +25,99 @@ class ExpenseWidget extends StatelessWidget {
         ],
       ),
       margin: const EdgeInsets.all(8),
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      child: Dismissible(
+        key: UniqueKey(),
+        direction: DismissDirection.endToStart,
+        background: Container(
+          alignment: Alignment.centerRight,
+          decoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.shadow.withOpacity(0.3),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
+          child: const Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
         ),
-        title: Text(expense.title,
-            style: Theme.of(context).textTheme.headlineSmall),
-        subtitle: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                isExpense
-                    ? Text(
-                        '-${expense.amount.toStringAsFixed(2)} €',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      )
-                    : Text(
-                        // Remove the leading - and add a + in front of the amount
-                        '+${expense.amount.toStringAsFixed(2).substring(1)} €',
-                        style: const TextStyle(
-                          color: Colors.green,
-                        ),
-                      ),
-                Text(_formatDate(expense.date)),
-              ],
-            ),
-            if (expense.category != null && expense.category!.isNotEmpty)
-              Row(
-                children: [
-                  Text(
-                    expense.category!,
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
+        confirmDismiss: (_) {
+          return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Delete Expense'),
+                content:
+                    const Text('Are you sure you want to delete this expense?'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      BlocProvider.of<ExpenseBloc>(context)
+                          .add(DeleteExpenseEvent(expense.id));
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Delete'),
                   ),
                 ],
+              );
+            },
+          );
+        },
+        child: ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text(expense.title,
+              style: Theme.of(context).textTheme.headlineSmall),
+          subtitle: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  isExpense
+                      ? Text(
+                          '-${expense.amount.toStringAsFixed(2)} €',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        )
+                      : Text(
+                          // Remove the leading - and add a + in front of the amount
+                          '+${expense.amount.toStringAsFixed(2).substring(1)} €',
+                          style: const TextStyle(
+                            color: Colors.green,
+                          ),
+                        ),
+                  Text(_formatDate(expense.date)),
+                ],
               ),
-          ],
-        ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () {
-            showAdaptiveDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Delete Expense'),
-                    content: const Text(
-                        'Are you sure you want to delete this expense?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Cancel'),
+              if (expense.category != null && expense.category!.isNotEmpty)
+                Row(
+                  children: [
+                    Text(
+                      expense.category!,
+                      style: const TextStyle(
+                        fontStyle: FontStyle.italic,
                       ),
-                      TextButton(
-                        onPressed: () {
-                          BlocProvider.of<ExpenseBloc>(context)
-                              .add(DeleteExpenseEvent(expense.id));
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Delete'),
-                      ),
-                    ],
-                  );
-                });
-          },
+                    ),
+                  ],
+                ),
+            ],
+          ),
         ),
       ),
     );

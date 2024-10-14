@@ -31,7 +31,6 @@ class AddExpenseFloatingActionButton extends StatelessWidget {
           builder: (BuildContext context) {
             return StatefulBuilder(
               builder: (context, setState) => AlertDialog.adaptive(
-                title: const Text('Add Expense/Income'),
                 content: SingleChildScrollView(
                   child: Form(
                     key: _formKey,

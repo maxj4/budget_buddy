@@ -105,17 +105,27 @@ class ExpenseWidget extends StatelessWidget {
                   Text(_formatDate(expense.date)),
                 ],
               ),
-              if (expense.category != null && expense.category!.isNotEmpty)
-                Row(
-                  children: [
-                    Text(
-                      expense.category!,
-                      style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ],
-                ),
+              Row(
+                children: [
+                  expense.category != null && expense.category!.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: Text(
+                            expense.category!,
+                            style: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  expense.description != null && expense.description!.isNotEmpty
+                      ? Text(
+                          expense.description!,
+                        )
+                      : const SizedBox.shrink(),
+                ],
+              ),
             ],
           ),
         ),

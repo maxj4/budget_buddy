@@ -1,6 +1,7 @@
 import 'package:budget_buddy/domain/entities/expense.dart';
 import 'package:budget_buddy/presentation/bloc/expense_bloc.dart';
 import 'package:budget_buddy/presentation/bloc/expense_event.dart';
+import 'package:budget_buddy/presentation/widgets/expense_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,6 @@ class ExpenseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isExpense = expense.amount > 0;
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -81,6 +81,21 @@ class ExpenseWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
+          onLongPress: () {
+            showAdaptiveDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ExpenseDialog(
+                  expense: expense,
+                  isEditing: true,
+                  onSave: (expense) {
+                    BlocProvider.of<ExpenseBloc>(context)
+                        .add(UpdateExpenseEvent(expense));
+                  },
+                );
+              },
+            );
+          },
           title: Text(expense.title,
               style: Theme.of(context).textTheme.headlineSmall),
           subtitle: Column(
@@ -88,7 +103,7 @@ class ExpenseWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  isExpense
+                  expense.amount > 0
                       ? Text(
                           '-${expense.amount.toStringAsFixed(2)} €',
                           style: TextStyle(
